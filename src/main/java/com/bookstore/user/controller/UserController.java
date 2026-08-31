@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.bookstore.user.dto.LoginRequest;
 import com.bookstore.user.dto.LoginResponse;
+import com.bookstore.user.dto.UpdateProfileRequest;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/api/users")
@@ -34,8 +36,26 @@ public class UserController {
         return userService.login(request);
     }
 
-    @GetMapping("/protected-test")
-    public String protectedTest() {
-        return "You are authenticated";
+    @GetMapping("/profile")
+    public UserResponse getProfile(Authentication authentication) {
+
+        String email = authentication.getName();
+
+        return userService.getProfile(email);
     }
+
+    @PutMapping("/profile")
+    public UserResponse updateProfile(
+            Authentication authentication,
+            @Valid @RequestBody UpdateProfileRequest request
+    ) {
+
+        String currentEmail = authentication.getName();
+
+        return userService.updateProfile(
+                currentEmail,
+                request
+        );
+    }
+
 }

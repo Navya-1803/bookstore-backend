@@ -8,9 +8,9 @@ import com.bookstore.user.dto.UserResponse;
 import com.bookstore.user.entity.Role;
 import com.bookstore.user.entity.User;
 import com.bookstore.user.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.bookstore.user.dto.UpdateProfileRequest;
 
 @Service
 public class UserService {
@@ -83,5 +83,49 @@ public class UserService {
         );
 
         return new LoginResponse(token, userResponse);
+    }
+
+    public UserResponse getProfile(String email) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found")
+                );
+
+        return new UserResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getRole()
+        );
+    }
+
+    public UserResponse updateProfile(
+            String currentEmail,
+            UpdateProfileRequest request
+    ) {
+
+        User user = userRepository.findByEmail(currentEmail)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found")
+                );
+
+        if (!user.getEmail().equals(request.getEmail())
+                && userRepository.existsByEmail(request.getEmail())) {
+
+            throw new RuntimeException("Email already registered");
+        }
+
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+
+        User updatedUser = userRepository.save(user);
+
+        return new UserResponse(
+                updatedUser.getId(),
+                updatedUser.getName(),
+                updatedUser.getEmail(),
+                updatedUser.getRole()
+        );
     }
 }
