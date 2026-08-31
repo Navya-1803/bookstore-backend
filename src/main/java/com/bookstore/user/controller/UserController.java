@@ -33,4 +33,9 @@ public class UserController {
 
         return userService.login(request);
     }
+
+    @GetMapping("/protected-test")
+    public String protectedTest() {
+        return "You are authenticated";
+    }
 }

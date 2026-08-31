@@ -9,22 +9,24 @@ import com.bookstore.user.entity.Role;
 import com.bookstore.user.entity.User;
 import com.bookstore.user.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
     public UserService(
             UserRepository userRepository,
-            JwtUtil jwtUtil
+            JwtUtil jwtUtil,
+            PasswordEncoder passwordEncoder
     ) {
         this.userRepository = userRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
         this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserResponse register(RegisterRequest request) {
