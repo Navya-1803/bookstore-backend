@@ -90,45 +90,43 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-
+                        // Public endpoints
                         .requestMatchers(
                                 "/api/health",
                                 "/api/users/register",
                                 "/api/users/login"
                         ).permitAll()
 
+                        // Public book browsing
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/books",
+                                "/api/books/**"
+                        ).permitAll()
 
+                        // CORS preflight
                         .requestMatchers(
                                 HttpMethod.OPTIONS,
                                 "/**"
                         ).permitAll()
 
-
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                "/api/books",
-                                "/api/books/**"
-                        ).hasAnyRole("USER", "ADMIN")
-
-
+                        // Admin book management
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/api/books"
                         ).hasRole("ADMIN")
-
 
                         .requestMatchers(
                                 HttpMethod.PUT,
                                 "/api/books/**"
                         ).hasRole("ADMIN")
 
-
                         .requestMatchers(
                                 HttpMethod.DELETE,
                                 "/api/books/**"
                         ).hasRole("ADMIN")
 
-
+                        // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
 

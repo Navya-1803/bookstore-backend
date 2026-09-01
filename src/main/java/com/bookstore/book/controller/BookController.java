@@ -34,21 +34,29 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookResponse>> getAllBooks() {
+    public ResponseEntity<List<BookResponse>> getAllBooks(
+
+            @RequestParam(required = false)
+            String search,
+
+            @RequestParam(required = false)
+            String category,
+
+            @RequestParam(required = false)
+            String sortBy,
+
+            @RequestParam(required = false)
+            String direction
+    ) {
 
         return ResponseEntity.ok(
-                bookService.getAllBooks()
+                bookService.getAllBooks(search, category, sortBy, direction)
         );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookResponse> getBookById(
-            @PathVariable Long id
-    ) {
-
-        return ResponseEntity.ok(
-                bookService.getBookById(id)
-        );
+    public ResponseEntity<BookResponse> getBookById(@PathVariable Long id) {
+        return ResponseEntity.ok(bookService.getBookById(id));
     }
 
     @PutMapping("/{id}")
