@@ -1,9 +1,9 @@
-package com.bookstore.service;
+package com.bookstore.book.service;
 
-import com.bookstore.dto.BookRequest;
-import com.bookstore.dto.BookResponse;
-import com.bookstore.entity.Book;
-import com.bookstore.repository.BookRepository;
+import com.bookstore.book.dto.BookRequest;
+import com.bookstore.book.dto.BookResponse;
+import com.bookstore.book.entity.Book;
+import com.bookstore.book.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,8 +1,8 @@
-package com.bookstore.controller;
+package com.bookstore.book.controller;
 
-import com.bookstore.dto.BookRequest;
-import com.bookstore.dto.BookResponse;
-import com.bookstore.service.BookService;
+import com.bookstore.book.dto.BookRequest;
+import com.bookstore.book.dto.BookResponse;
+import com.bookstore.book.service.BookService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

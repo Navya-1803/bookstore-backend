@@ -1,4 +1,4 @@
-package com.bookstore.entity;
+package com.bookstore.book.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
@@ -53,6 +53,7 @@ public class Book {
     }
 
     public Long getId() {
+
         return id;
     }
 
