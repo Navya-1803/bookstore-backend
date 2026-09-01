@@ -110,6 +110,10 @@ public class SecurityConfig {
                                 "/**"
                         ).permitAll()
 
+                        .requestMatchers(
+                                "/api/cart/**"
+                        ).hasRole("USER")
+
                         // Admin book management
                         .requestMatchers(
                                 HttpMethod.POST,
