@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.http.HttpMethod;
 
 import java.util.List;
 
@@ -89,16 +90,44 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
+
                         .requestMatchers(
                                 "/api/health",
                                 "/api/users/register",
                                 "/api/users/login"
                         ).permitAll()
 
+
                         .requestMatchers(
-                                org.springframework.http.HttpMethod.OPTIONS,
+                                HttpMethod.OPTIONS,
                                 "/**"
                         ).permitAll()
+
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/books",
+                                "/api/books/**"
+                        ).hasAnyRole("USER", "ADMIN")
+
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/books"
+                        ).hasRole("ADMIN")
+
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/books/**"
+                        ).hasRole("ADMIN")
+
+
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/api/books/**"
+                        ).hasRole("ADMIN")
+
 
                         .anyRequest().authenticated()
                 )
