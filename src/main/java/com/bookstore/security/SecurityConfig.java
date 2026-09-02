@@ -114,6 +114,10 @@ public class SecurityConfig {
                                 "/api/cart/**"
                         ).hasRole("USER")
 
+                        .requestMatchers(
+                                "/api/wishlist/**"
+                        ).hasRole("USER")
+
                         // Admin book management
                         .requestMatchers(
                                 HttpMethod.POST,

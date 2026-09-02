@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,17 +41,32 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = authorizationHeader.substring(7);
+        String token =
+                authorizationHeader.substring(7);
 
         try {
 
-            Claims claims = jwtUtil.extractClaims(token);
+            Claims claims =
+                    jwtUtil.extractClaims(token);
 
-            String email = claims.getSubject();
-            String role = claims.get("role", String.class);
+            String email =
+                    claims.getSubject();
+
+            String role =
+                    claims.get("role", String.class);
+
+            System.out.println(
+                    "JWT EMAIL = " + email
+            );
+
+            System.out.println(
+                    "JWT ROLE = " + role
+            );
 
             SimpleGrantedAuthority authority =
-                    new SimpleGrantedAuthority("ROLE_" + role);
+                    new SimpleGrantedAuthority(
+                            "ROLE_" + role
+                    );
 
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(
@@ -59,11 +75,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                             List.of(authority)
                     );
 
+            System.out.println(
+                    "AUTHORITIES = " +
+                            authentication.getAuthorities()
+            );
+
             SecurityContextHolder
                     .getContext()
                     .setAuthentication(authentication);
 
         } catch (Exception e) {
+
+            System.out.println(
+                    "JWT AUTHENTICATION FAILED: " +
+                            e.getMessage()
+            );
 
             SecurityContextHolder.clearContext();
         }
