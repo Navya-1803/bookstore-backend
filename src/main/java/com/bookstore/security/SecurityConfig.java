@@ -122,21 +122,50 @@ public class SecurityConfig {
                                 "/api/customers/**"
                         ).hasRole("USER")
 
-                        // Admin book management
-                        .requestMatchers(
-                                HttpMethod.POST,
-                                "/api/books"
-                        ).hasRole("ADMIN")
+                                // =========================================================
+// ADMIN ORDER OPERATIONS
+// IMPORTANT: Keep these BEFORE /api/orders/{id}
+// =========================================================
 
-                        .requestMatchers(
-                                HttpMethod.PUT,
-                                "/api/books/**"
-                        ).hasRole("ADMIN")
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/orders/all"
+                                ).hasRole("ADMIN")
 
-                        .requestMatchers(
-                                HttpMethod.DELETE,
-                                "/api/books/**"
-                        ).hasRole("ADMIN")
+                                .requestMatchers(
+                                        HttpMethod.PUT,
+                                        "/api/orders/{id}/status"
+                                ).hasRole("ADMIN")
+
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/orders/admin/{id}"
+                                ).hasRole("ADMIN")
+
+
+// =========================================================
+// USER ORDER OPERATIONS
+// =========================================================
+
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/api/orders"
+                                ).hasRole("USER")
+
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/orders"
+                                ).hasRole("USER")
+
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/orders/{id}"
+                                ).hasAnyRole("USER", "ADMIN")
+
+                                .requestMatchers(
+                                        HttpMethod.PUT,
+                                        "/api/orders/{id}/cancel"
+                                ).hasRole("USER")
 
                         // Everything else requires authentication
                         .anyRequest().authenticated()
