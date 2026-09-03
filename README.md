@@ -20,4 +20,4 @@ This project repo is the backend part of my FullStack Project, Bookstore Applica
 | feature/UC6-ShoppingCart | Adds Shopping cart feature |
 | feature/UC7-Wishlist | Adds Wishlist features |
 | feature/UC8-CustomerDetails | Enables user to add their personal contact information and delivery address |
-| feature/UC9-Ordere | Enables user to place order and for admin to manage them | 
+| feature/UC9-Order | Enables user to place order and for admin to manage them | 
